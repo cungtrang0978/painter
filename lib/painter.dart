@@ -18,7 +18,7 @@ class Painter extends StatefulWidget {
 }
 
 class _PainterState extends State<Painter> {
-  bool _finished;
+  late bool _finished;
 
   @override
   void initState() {
@@ -31,7 +31,7 @@ class _PainterState extends State<Painter> {
     setState(() {
       _finished = true;
     });
-    return context.size;
+    return context.size!;
   }
 
   @override
@@ -80,7 +80,7 @@ class _PainterState extends State<Painter> {
 class _PainterPainter extends CustomPainter {
   final _PathHistory _path;
 
-  _PainterPainter(this._path, {Listenable repaint}) : super(repaint: repaint);
+  _PainterPainter(this._path, { required Listenable repaint}) : super(repaint: repaint);
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -94,15 +94,15 @@ class _PainterPainter extends CustomPainter {
 }
 
 class _PathHistory {
-  List<MapEntry<Path, Paint>> _paths;
-  Paint currentPaint;
-  Paint _backgroundPaint;
-  bool _inDrag;
+  late List<MapEntry<Path, Paint>> _paths;
+  late Paint currentPaint;
+  late Paint _backgroundPaint;
+  late bool _inDrag;
 
   bool get isEmpty => _paths.isEmpty || (_paths.length == 1 && _inDrag);
 
   _PathHistory() {
-    _paths = new List<MapEntry<Path, Paint>>();
+    _paths = [];
     _inDrag = false;
     _backgroundPaint = new Paint()..blendMode = BlendMode.dstOver;
   }
@@ -169,8 +169,8 @@ class PictureDetails {
   }
 
   Future<Uint8List> toPNG() async {
-    final image = await toImage();
-    return (await image.toByteData(format: ImageByteFormat.png))
+    final Image image = await toImage();
+    return (await image.toByteData(format: ImageByteFormat.png))!
         .buffer
         .asUint8List();
   }
@@ -182,9 +182,9 @@ class PainterController extends ChangeNotifier {
   bool _eraseMode = false;
 
   double _thickness = 1.0;
-  PictureDetails _cached;
-  _PathHistory _pathHistory;
-  ValueGetter<Size> _widgetFinish;
+  late PictureDetails _cached;
+  late _PathHistory _pathHistory;
+  late ValueGetter<Size> _widgetFinish;
 
   PainterController() {
     _pathHistory = new _PathHistory();
