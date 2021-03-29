@@ -1,4 +1,4 @@
-# painter
+# painter with Null Safety
 
 A simple flutter widget to paint with your fingers.
 
